@@ -1,5 +1,5 @@
-import '../note_repository.dart';
-import '../note_entity.dart';
+import '../repositories/note_repository.dart';
+import '../entities/note_entity.dart';
 
 /// Use case for retrieving all notes as a stream.
 class GetNotesUseCase {

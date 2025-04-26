@@ -1,9 +1,9 @@
 import 'package:note/core/mappers/note.dart';
 import 'package:note/data/models/note.dart';
 
-import '../../domain/note_repository.dart';
-import '../../domain/note_entity.dart';
-import '../datasources/local_data_source.dart';
+import '../../domain/repositories/note_repository.dart';
+import '../../domain/entities/note_entity.dart';
+import '../datasources/local/local_data_source.dart';
 
 /// Implementation of the NoteRepository that uses a LocalDataSource.
 class NoteRepositoryImpl implements NoteRepository {

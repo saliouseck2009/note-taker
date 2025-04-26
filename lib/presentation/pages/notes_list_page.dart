@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:note/domain/note_entity.dart';
+import 'package:note/core/injection.dart';
+import 'package:note/domain/entities/note_entity.dart';
 import 'package:note/presentation/bloc/note_list/note_list_bloc.dart';
 import '../../presentation/widgets/note_card.dart';
 import 'edit_note_page.dart';
@@ -10,58 +11,93 @@ class NotesListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final notesBloc = context.read<NotesListBloc>();
-    return Scaffold(
-      appBar: AppBar(title: const Text('Your notes')),
-      body: BlocBuilder<NotesListBloc, NotesListState>(
-        builder: (context, state) {
-          if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-          if (state.errorMessage != null) {
-            return Center(
-              child: Text(
-                state.errorMessage!,
-                style: const TextStyle(color: Colors.redAccent, fontSize: 16),
-              ),
-            );
-          }
-          return Column(
-            children: [
-              SortOptions(
-                state: state,
-                onSortFieldChanged:
-                    (field) => notesBloc.add(SortFieldChanged(field)),
-                onSortOrderToggled: () => notesBloc.add(SortOrderToggled()),
-              ),
-              Expanded(
-                child: NotesList(
-                  notes: state.notes,
-                  onNoteTap: (note) {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (_) => EditNotePage(note: note),
-                      ),
-                    );
-                  },
-                  onNoteDismissed:
-                      (noteId) => notesBloc.add(DeleteNoteRequested(noteId)),
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(
-            context,
-          ).push(MaterialPageRoute(builder: (_) => const EditNotePage()));
-        },
-        tooltip: 'Add Note',
-        child: const Icon(Icons.add, color: Colors.black),
+    return BlocProvider(
+      create:
+          (context) => NotesListBloc(
+            getNotesUseCase: getIt(),
+            deleteNoteUseCase: getIt(),
+          ),
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Your notes')),
+        body: BlocBuilder<NotesListBloc, NotesListState>(
+          builder: (context, state) {
+            return switch (state) {
+              NotesListInitial() || NotesListLoading() => LoadingPage(),
+              NotesListLoaded() => PageContent(state: state),
+              NotesListError() => ErrorScreen(message: state.errorMessage),
+            };
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.of(
+              context,
+            ).push(MaterialPageRoute(builder: (_) => const EditNotePage()));
+          },
+          tooltip: 'Add Note',
+          child: const Icon(Icons.add, color: Colors.black),
+        ),
       ),
     );
+  }
+}
+
+class PageContent extends StatelessWidget {
+  const PageContent({super.key, required this.state});
+
+  final NotesListLoaded state;
+
+  @override
+  Widget build(BuildContext context) {
+    final notesBloc = context.read<NotesListBloc>();
+    return Column(
+      children: [
+        SortOptions(
+          state: state,
+          onSortFieldChanged: (field) => notesBloc.add(SortFieldChanged(field)),
+          onSortOrderToggled: () => notesBloc.add(SortOrderToggled()),
+        ),
+        Expanded(
+          child: NotesList(
+            notes: state.notes,
+            onNoteTap: (note) {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => EditNotePage(note: note)),
+              );
+            },
+            onNoteDismissed:
+                (noteId) => notesBloc.add(DeleteNoteRequested(noteId)),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ErrorScreen extends StatelessWidget {
+  final String message;
+  const ErrorScreen({
+    super.key,
+    this.message = "Nous avons rencontré une erreur.",
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        message,
+        style: const TextStyle(color: Colors.redAccent, fontSize: 16),
+      ),
+    );
+  }
+}
+
+class LoadingPage extends StatelessWidget {
+  const LoadingPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(child: CircularProgressIndicator());
   }
 }
 

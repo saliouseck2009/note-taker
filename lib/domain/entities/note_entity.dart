@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// Domain entity representing a Note.
 class Note extends Equatable {
   final int? id;
   final String title;
@@ -16,7 +15,6 @@ class Note extends Equatable {
     this.id,
   });
 
-  /// Convenience method to create a copy with some fields changed.
   Note copyWith({
     int? id,
     String? title,

@@ -1,5 +1,5 @@
-import '../note_repository.dart';
-import '../note_entity.dart';
+import '../repositories/note_repository.dart';
+import '../entities/note_entity.dart';
 
 /// Use case for adding a new note.
 class AddNoteUseCase {

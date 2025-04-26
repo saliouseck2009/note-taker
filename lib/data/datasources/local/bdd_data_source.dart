@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:note/data/models/note.dart';
 
-import '../database/app_database.dart';
+import 'database/app_database.dart';
 import 'local_data_source.dart';
 
 /// Local data source implementation using Drift (SQLite database).

@@ -3,12 +3,12 @@ import 'package:note/domain/usecases/add_note.dart';
 import 'package:note/domain/usecases/delete_note.dart';
 import 'package:note/domain/usecases/get_notes.dart';
 import 'package:note/domain/usecases/update_note.dart';
-import '../data/datasources/bdd_data_source.dart';
-import '../data/datasources/memory_data_source.dart';
-import '../data/datasources/local_data_source.dart';
+import '../data/datasources/local/bdd_data_source.dart';
+import '../data/datasources/local/memory_data_source.dart';
+import '../data/datasources/local/local_data_source.dart';
 import '../data/repositories/note_repository_impl.dart';
-import '../domain/note_repository.dart';
-import '../data/database/app_database.dart';
+import '../domain/repositories/note_repository.dart';
+import '../data/datasources/local/database/app_database.dart';
 
 final getIt = GetIt.instance;
 

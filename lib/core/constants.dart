@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 class AppConstants {
   /// Predefined note colors (as ARGB integer values) for notes.
   static const List<int> noteColorValues = [
-    0xFFE57373, // Red (light)
-    0xFFFFB74D, // Orange
-    0xFFFFF176, // Yellow
-    0xFF81C784, // Green
-    0xFF64B5F6, // Blue
+    0xFFA61C3C, // Red ()
+    0xFFF3EFE0, // Orange
+    0xFF372554, // Dark Purple
+    0xFF324A5F, // Blue dark
+    0xFF484a47, // Marron
   ];
 
   /// Predefined note colors as Color objects (for UI usage).

@@ -1,4 +1,4 @@
-import '../note_repository.dart';
+import '../repositories/note_repository.dart';
 
 /// Use case for deleting a note by id.
 class DeleteNoteUseCase {

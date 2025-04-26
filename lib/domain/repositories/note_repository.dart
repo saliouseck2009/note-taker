@@ -1,4 +1,4 @@
-import 'note_entity.dart';
+import '../entities/note_entity.dart';
 
 /// Abstract repository for Note operations.
 abstract class NoteRepository {
