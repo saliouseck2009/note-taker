@@ -71,6 +71,9 @@ class EditNotePage extends StatelessWidget {
                         context.read<NoteFormBloc>().add(
                           const NoteFormSubmitted(),
                         );
+                        context.read<NoteFormBloc>().add(
+                          const NoteFormSubmitted(),
+                        );
                       },
               tooltip: 'Save Note',
               child: Icon(Icons.save),
