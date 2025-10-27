@@ -75,28 +75,9 @@ class NoteFormBloc extends Bloc<NoteFormEvent, NoteFormState> {
 
     if (state.title.trim().isEmpty) {
       emit(state.copyWith(errorMessage: 'Title cannot be empty'));
-      // emit(
-      //   NoteFormFailure(
-      //     noteId: state.noteId,
-      //     title: state.title,
-      //     content: state.content,
-      //     color: state.color,
-      //     date: state.date,
-      //     error: 'Title cannot be empty',
-      //   ),
-      // );
       return;
     }
-    emit(
-      // NoteFormSaving(
-      //   noteId: state.noteId,
-      //   title: state.title,
-      //   content: state.content,
-      //   color: state.color,
-      //   date: state.date,
-      // ),
-      state.copyWith(isEditing: true, errorMessage: null),
-    );
+    emit(state.copyWith(isEditing: true, errorMessage: null));
     try {
       if (state.noteId == null) {
         // Create new note
